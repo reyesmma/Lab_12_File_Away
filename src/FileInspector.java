@@ -25,7 +25,6 @@ public class FileInspector {
 
         File selectedFile = chooser.getSelectedFile();
 
-        // try-with-resources ensures the BufferedReader is closed automatically
         try (BufferedReader br = new BufferedReader(new FileReader(selectedFile))) {
             String line;
             String[] words;
@@ -36,25 +35,23 @@ public class FileInspector {
                 for(int i =0; i<words.length; i++)
                     numChars += words[i].length();
             }
-            // you would have to close the file here if you didn't use try-with-resources'
         }
-        // Because of the java inheritance chain, you have to test for the more specific exception first
         catch (FileNotFoundException e) {
             System.out.println("File not found: " + e.getMessage());
             e.printStackTrace();
         }
-        // This catches every IO exception and must be after the more specific ones
         catch (IOException e) {
             e.printStackTrace();
         }
 
-
-        // Display the lines
         for (String l : lines) {
             System.out.println(l);
         }
+
         // Summary Report Output
+        System.out.println();
         System.out.println("Summary Report");
+        System.out.println("Name of the file: " + selectedFile.getName());
         System.out.println("Number of lines in the file: " + lines.size());
         System.out.println("Number of words in the file: " + numWords);
         System.out.println("Number of characters in the file: " + numChars);
